@@ -38,7 +38,7 @@ module-whatis "ALICE Modulefile for $PKGNAME $PKGVERSION-@@PKGREVISION@$PKGHASH@
 module load BASE/1.0
 
 # setting environment (aka setup_new.sh in alibuild language)
-setenv FEDRA_ROOT \$::env(HOME)/fedra_sndsw
+setenv FEDRA_ROOT \$::env(BASEDIR)/$PKGNAME/\$version
 prepend-path LD_LIBRARY_PATH \$::env(FEDRA_ROOT)/lib
 prepend-path PATH \$::env(FEDRA_ROOT)/bin
 append-path PYTHONPATH \$::env(FEDRA_ROOT)/python
