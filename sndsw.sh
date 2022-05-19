@@ -14,6 +14,7 @@ requires:
   - ROOT
   - VMC
   - alpaca
+  - FEDRA
 build_requires:
   - googletest
 incremental_recipe: |
