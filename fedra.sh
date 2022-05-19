@@ -11,9 +11,10 @@ requires:
 --- 
 #!/bin/bash 
 rsync -a $SOURCEDIR/* $BUILDDIR
-rsync -a $BUILDDIR/* $INSTALLROOT
-ls -alh $INSTALLROOT
-cd $INSTALLROOT
+#rsync -a $BUILDDIR/* $INSTALLROOT
+rsync -a $BUILDDIR/* $HOME/fedra_sndsw #I am getting desperate
+ls -alh $HOME/fedra_sndsw
+cd $HOME/fedra_sndsw
 source install.sh
 cp src/*/*.pcm lib
 cp src/*/*/*.pcm lib
@@ -21,8 +22,8 @@ cp macros/rootlogon_root6x.C macros/rootlogon.C
 cp macros_root6/*.C macros
 
 # make command does not work, do it by hand (include links become broken otherwise)
-rsync -a src/*/*.h $INSTALLROOT/include/
-rsync -a src/*/*/*.h $INSTALLROOT/include/
+#rsync -a src/*/*.h $INSTALLROOT/include/
+#rsync -a src/*/*/*.h $INSTALLROOT/include/
 
 
 # Modulefile
@@ -41,8 +42,8 @@ module-whatis "ALICE Modulefile for $PKGNAME $PKGVERSION-@@PKGREVISION@$PKGHASH@
 module load BASE/1.0
 
 # setting environment (aka setup_new.sh in alibuild language)
-setenv FEDRA_ROOT \$::env(BASEDIR)/$PKGNAME/\$version
-append-path LD_LIBRARY_PATH \$::env(FEDRA_ROOT)/lib
-append-path PATH \$::env(FEDRA_ROOT)/bin
+setenv FEDRA_ROOT \$::env(HOME)/fedra_sndsw
+prepend-path LD_LIBRARY_PATH \$::env(FEDRA_ROOT)/lib
+prepend-path PATH \$::env(FEDRA_ROOT)/bin
 append-path PYTHONPATH \$::env(FEDRA_ROOT)/python
 EoF
