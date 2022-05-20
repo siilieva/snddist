@@ -11,20 +11,16 @@ requires:
 --- 
 #!/bin/bash 
 rsync -a $SOURCEDIR/* $BUILDDIR
-#rsync -a $BUILDDIR/* $INSTALLROOT
-rsync -a $BUILDDIR/* $HOME/fedra_sndsw #I am getting desperate
-ls -alh $HOME/fedra_sndsw
-cd $HOME/fedra_sndsw
-source install.sh
-cp src/*/*.pcm lib
-cp src/*/*/*.pcm lib
-cp macros/rootlogon_root6x.C macros/rootlogon.C
-cp macros_root6/*.C macros
 
-# make command does not work, do it by hand (include links become broken otherwise)
-#rsync -a src/*/*.h $INSTALLROOT/include/
-#rsync -a src/*/*/*.h $INSTALLROOT/include/
+export FEDRA_INSTALL_DIR=$INSTALLROOT
 
+chmod u+x install.sh
+./install.sh
+
+rsync -a $INSTALLROOT/src/*/*.pcm $INSTALLROOT/lib
+rsync -a $INSTALLROOT/src/*/*/*.pcm $INSTALLROOT/lib
+rsync -a $INSTALLROOT/macros/rootlogon_root6x.C $INSTALLROOT/macros/rootlogon.C
+rsync -a $INSTALLROOT/macros_root6/*.C $INSTALLROOT/macros/
 
 # Modulefile
 MODULEDIR="$INSTALLROOT/etc/modulefiles"
@@ -42,7 +38,7 @@ module-whatis "ALICE Modulefile for $PKGNAME $PKGVERSION-@@PKGREVISION@$PKGHASH@
 module load BASE/1.0
 
 # setting environment (aka setup_new.sh in alibuild language)
-setenv FEDRA_ROOT \$::env(HOME)/fedra_sndsw
+setenv FEDRA_ROOT \$::env(BASEDIR)/$PKGNAME/\$version
 prepend-path LD_LIBRARY_PATH \$::env(FEDRA_ROOT)/lib
 prepend-path PATH \$::env(FEDRA_ROOT)/bin
 append-path PYTHONPATH \$::env(FEDRA_ROOT)/python
