@@ -17,10 +17,16 @@ export FEDRA_INSTALL_DIR=$INSTALLROOT
 chmod u+x install.sh
 ./install.sh
 
+rm $INSTALLROOT/src/libShower/weights/Energy/volumeSpec_CP/particleSpec_electron/efficiencySpec_MiddleFix/trainrangeSpec_normal/trainrangeSpec_normal #link to a file in meisel folders?!?!
+rsync -aL $INSTALLROOT/* $BUILDDIR/tempdir #copy links as actual files
+rsync -aL $BUILDDIR/tempdir/* $INSTALLROOT #copy links as actual files
+
 rsync -a $INSTALLROOT/src/*/*.pcm $INSTALLROOT/lib
 rsync -a $INSTALLROOT/src/*/*/*.pcm $INSTALLROOT/lib
 rsync -a $INSTALLROOT/macros/rootlogon_root6x.C $INSTALLROOT/macros/rootlogon.C
 rsync -a $INSTALLROOT/macros_root6/*.C $INSTALLROOT/macros/
+
+#exitwitherror #to make it crash and not delete INSTALLROOT files, for debugging
 
 # Modulefile
 MODULEDIR="$INSTALLROOT/etc/modulefiles"
