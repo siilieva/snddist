@@ -325,7 +325,7 @@ overrides:
       ls $GOOGLETEST_ROOT/lib/libgtest_main.a > /dev/null && \
       true
   fedra:
-    tag: master
+    tag: rev1523
     prefer_system_check: |
       ls $FEDRA_ROOT/bin > /dev/null && \
       ls $FEDRA_ROOT/lib > /dev/null && \

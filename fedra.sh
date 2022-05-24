@@ -1,5 +1,5 @@
 package: FEDRA
-version: v1.5.23
+version: rev1523
 tag: rev1523
 
 source: https://github.com/antonioiuliano2/fedra
