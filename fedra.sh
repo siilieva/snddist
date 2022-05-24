@@ -1,6 +1,6 @@
 package: FEDRA
-version: v1.5.22
-tag: master
+version: v1.5.23
+tag: rev1523
 
 source: https://github.com/antonioiuliano2/fedra
 
@@ -18,7 +18,7 @@ chmod u+x install.sh
 ./install.sh
 
 rm $INSTALLROOT/src/libShower/weights/Energy/volumeSpec_CP/particleSpec_electron/efficiencySpec_MiddleFix/trainrangeSpec_normal/trainrangeSpec_normal #link to a file in meisel folders?!?!
-cp $INSTALLROOT/src/libAnalysis/EdbDecaySearch.h $INSTALLROOT/include/ #this file is missing from the include, funny
+cp $INSTALLROOT/src/libAnalysis/EdbDecaySearch.h $INSTALLROOT/include/ #copy file missing from include folder
 rsync -aL $INSTALLROOT/* $BUILDDIR/tempdir #copy links as actual files
 rsync -aL $BUILDDIR/tempdir/* $INSTALLROOT #copy links as actual files
 
@@ -31,8 +31,6 @@ rsync -a $INSTALLROOT/macros_root6/*.C $INSTALLROOT/macros/
 rsync -aL $INSTALLROOT/src/libVt++/smatrix/include/ $INSTALLROOT/include/smatrix/include
 rsync -aL $INSTALLROOT/src/libVt++/vt++/include/ $INSTALLROOT/include/vt++/include
 rsync -aL $INSTALLROOT/src/libDataConversion/dataIO/ $INSTALLROOT/include/dataIO/include
-
-#exitwitherror #to make it crash and not delete INSTALLROOT files, for debugging
 
 # Modulefile
 MODULEDIR="$INSTALLROOT/etc/modulefiles"
