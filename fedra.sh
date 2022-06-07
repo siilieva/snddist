@@ -14,8 +14,7 @@ rsync -a $SOURCEDIR/* $BUILDDIR
 
 export FEDRA_INSTALL_DIR=$INSTALLROOT
 
-chmod u+x install.sh
-./install.sh
+bash install.sh
 
 rm $INSTALLROOT/src/libShower/weights/Energy/volumeSpec_CP/particleSpec_electron/efficiencySpec_MiddleFix/trainrangeSpec_normal/trainrangeSpec_normal #link to a file in meisel folders?!?!
 cp $INSTALLROOT/src/libAnalysis/EdbDecaySearch.h $INSTALLROOT/include/ #copy file missing from include folder
@@ -45,7 +44,8 @@ proc ModulesHelp { } {
 set version $PKGVERSION-@@PKGREVISION@$PKGHASH@@
 module-whatis "ALICE Modulefile for $PKGNAME $PKGVERSION-@@PKGREVISION@$PKGHASH@@"
 # Dependencies
-module load BASE/1.0
+module load BASE/1.0                                                                            \\
+            ${ROOT_VERSION:+ROOT/$ROOT_VERSION-$ROOT_REVISION}
 
 # setting environment (aka setup_new.sh in alibuild language)
 setenv FEDRA_ROOT \$::env(BASEDIR)/$PKGNAME/\$version
