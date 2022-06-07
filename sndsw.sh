@@ -49,7 +49,7 @@ incremental_recipe: |
             ${EVTGEN_VERSION:+EvtGen/$EVTGEN_VERSION-$EVTGEN_REVISION}          \\
             ${FAIRROOT_VERSION:+FairRoot/$FAIRROOT_VERSION-$FAIRROOT_REVISION}  \\
             ${MADGRAPH5_VERSION:+madgraph5/$MADGRAPH5_VERSION-$MADGRAPH5_REVISION} \\
-            FEDRA/latest
+            ${FEDRA_VERSION:+FEDRA/$FEDRA_VERSION-$FEDRA_REVISION}
   # Our environment
   setenv EOSSHIP root://eospublic.cern.ch/
   setenv SNDSW_ROOT \$::env(BASEDIR)/$PKGNAME/\$version
