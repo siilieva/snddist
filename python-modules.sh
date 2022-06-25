@@ -10,7 +10,7 @@ prepend_path:
   PYTHONPATH: $PYTHON_MODULES_ROOT/lib/python3.6/site-packages:$PYTHONPATH
 prefer_system: (?!slc5)
 prefer_system_check: |
-  python3 -c 'import matplotlib,numpy,scipy,certifi,IPython,ipywidgets,ipykernel,notebook.notebookapp,metakernel,sklearn,six,pymongo,mongoengine,pytest,pylint,yaml'
+  python3 -c 'import wheel, matplotlib,numpy,scipy,certifi,IPython,ipywidgets,ipykernel,notebook.notebookapp,metakernel,sklearn,six,pymongo,mongoengine,pytest,pylint,yaml'
   if [ $? -ne 0 ]
   then
       printf "Required Python modules are missing. You can install them with pip3:\n  pip3 install matplotlib numpy scipy certifi ipython ipywidgets ipykernel notebook metakernel scikit-learn six pymongo mongoengine pytest pylint pyyaml\n"
@@ -55,17 +55,22 @@ export PYVER=$(python3 -c 'import distutils.sysconfig; print(distutils.sysconfig
 # are not sure that pip exits with nonzero in case one of the packages failed.
 export PYTHONUSERBASE=$INSTALLROOT
 python3 -m pip install --upgrade pip
+
+# Install setuptools upfront, since this seems to create issues now...
+python3 -m pip install -IU "setuptools < 60.0"
+python3 -m pip install -IU wheel
+python3 -m pip install -IU numpy
+
 for X in "mock==1.3.0"          \
-         "numpy==1.16.5"        \
          "certifi==2019.6.16"   \
          "ipython==5.8.0"       \
          "ipywidgets==5.2.3"    \
          "ipykernel==4.10.0"    \
          "notebook==4.4.1"      \
          "metakernel==0.24.2"   \
-         "scipy==1.2.2"         \
+         "scipy==1.6.1"         \
          "scikit-learn==0.24.1" \
-         "matplotlib==2.2.4"    \
+         "matplotlib==3.5.1"    \
          "six"                  \
          "future"               \
          "pymongo==3.10.1"      \
@@ -73,7 +78,7 @@ for X in "mock==1.3.0"          \
          "pylint==2.0.1"        \
          "PyYAML==5.1"          \
          "requests==2.25.0"     \
-         "mongoengine==0.19.1"
+         "mongoengine==0.23.1"
 do
   python3 -m pip install --user $X
 done
@@ -83,7 +88,7 @@ chmod -R 755 $PYTHONUSERBASE/lib
 unset PYTHONUSERBASE
 
 # Test if matplotlib can be loaded
-env PYTHONPATH="$INSTALLROOT/lib/python3.6/site-packages" python3 -c 'import matplotlib'
+env PYTHONPATH="$INSTALLROOT/lib/python$PYVER/site-packages" python3 -c 'import matplotlib'
 
 # Remove unneeded stuff
 rm -rvf $INSTALLROOT/share            \

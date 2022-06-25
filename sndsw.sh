@@ -15,6 +15,7 @@ requires:
   - VMC
   - alpaca
   - FEDRA
+  - XRootD
 build_requires:
   - googletest
 incremental_recipe: |
@@ -43,6 +44,7 @@ incremental_recipe: |
   module-whatis "ALICE Modulefile for $PKGNAME $PKGVERSION-@@PKGREVISION@$PKGHASH@@"
   # Dependencies
   module load BASE/1.0                                                          \\
+            ${XROOTD_VERSION:+XRootD/$XROOTD_VERSION-$XROOTD_REVISION}          \\
             ${GEANT4_VERSION:+GEANT4/$GEANT4_VERSION-$GEANT4_REVISION}          \\
             ${GENIE_VERSION:+GENIE/$GENIE_VERSION-$GENIE_REVISION}              \\
             ${PHOTOSPP_VERSION:+PHOTOSPP/$PHOTOSPP_VERSION-$PHOTOSPP_REVISION}  \\
@@ -72,6 +74,7 @@ incremental_recipe: |
   append-path ROOT_INCLUDE_PATH \$::env(GEANT4_VMC_ROOT)/include
   append-path ROOT_INCLUDE_PATH \$::env(GEANT4_VMC_ROOT)/include/geant4vmc
   append-path ROOT_INCLUDE_PATH \$::env(SNDSW_ROOT)/genfit/core/include
+  append-path PYTHONPATH \$::env(XROOTD_ROOT)/lib/python3.8/site-packages
 
   prepend-path PYTHONPATH \$::env(SNDSW_ROOT)/python
   append-path PYTHONPATH \$::env(SNDSW_ROOT)/shipLHC/scripts
@@ -155,6 +158,7 @@ set version $PKGVERSION-@@PKGREVISION@$PKGHASH@@
 module-whatis "ALICE Modulefile for $PKGNAME $PKGVERSION-@@PKGREVISION@$PKGHASH@@"
 # Dependencies
 module load BASE/1.0                                                            \\
+            ${XROOTD_VERSION:+XRootD/$XROOTD_VERSION-$XROOTD_REVISION}          \\
             ${GEANT4_VERSION:+GEANT4/$GEANT4_VERSION-$GEANT4_REVISION}          \\
             ${GENIE_VERSION:+GENIE/$GENIE_VERSION-$GENIE_REVISION}              \\
             ${PHOTOSPP_VERSION:+PHOTOSPP/$PHOTOSPP_VERSION-$PHOTOSPP_REVISION}  \\
@@ -187,7 +191,7 @@ append-path ROOT_INCLUDE_PATH \$::env(GEANT4_VMC_ROOT)/include/geant4vmc
 prepend-path PYTHONPATH \$::env(SNDSW_ROOT)/python
 append-path PYTHONPATH \$::env(SNDSW_ROOT)/shipLHC/scripts
 append-path PYTHONPATH \$::env(SNDSW_ROOT)/shipLHC/rawData
-append-path PYTHONPATH \$::env(XROOTD_ROOT)/lib/python3.8/site-packages
+# append-path PYTHONPATH \$::env(XROOTD_ROOT)/lib/python3.8/site-packages
 
 $([[ ${ARCHITECTURE:0:3} == osx ]] && echo "prepend-path DYLD_LIBRARY_PATH \$::env(SNDSW_ROOT)/lib")
 EoF

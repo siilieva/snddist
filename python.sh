@@ -1,6 +1,6 @@
 package: Python
 version: "%(tag_basename)s"
-tag: v3.6.8
+tag: v3.8.12
 source: https://github.com/python/cpython
 requires:
  - AliEn-Runtime:(?!.*ppc64)
