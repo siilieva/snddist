@@ -7,7 +7,7 @@ requires:
 build_requires:
   - curl
 prepend_path:
-  PYTHONPATH: $PYTHON_MODULES_ROOT/lib/python3.6/site-packages:$PYTHONPATH
+  PYTHONPATH: $PYTHON_MODULES_ROOT/lib/python$PYVER/site-packages:$PYTHONPATH
 prefer_system: (?!slc5)
 prefer_system_check: |
   python3 -c 'import wheel, matplotlib,numpy,scipy,certifi,IPython,ipywidgets,ipykernel,notebook.notebookapp,metakernel,sklearn,six,pymongo,mongoengine,pytest,pylint,yaml'
