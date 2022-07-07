@@ -74,7 +74,7 @@ incremental_recipe: |
   append-path ROOT_INCLUDE_PATH \$::env(GEANT4_VMC_ROOT)/include
   append-path ROOT_INCLUDE_PATH \$::env(GEANT4_VMC_ROOT)/include/geant4vmc
   append-path ROOT_INCLUDE_PATH \$::env(SNDSW_ROOT)/genfit/core/include
-  append-path PYTHONPATH \$::env(XROOTD_ROOT)/lib/python3.8/site-packages
+  # append-path PYTHONPATH \$::env(XROOTD_ROOT)/lib/python3.8/site-packages
 
   prepend-path PYTHONPATH \$::env(SNDSW_ROOT)/python
   append-path PYTHONPATH \$::env(SNDSW_ROOT)/shipLHC/scripts

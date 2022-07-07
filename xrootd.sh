@@ -64,7 +64,7 @@ cmake "$BUILDDIR"                                                     \
       ${UUID_ROOT:+-DUUID_LIBRARY=$UUID_ROOT/lib/libuuid.so}          \
       ${UUID_ROOT:+-DUUID_INCLUDE_DIRS=$UUID_ROOT/include}            \
       ${UUID_ROOT:+-DUUID_INCLUDE_DIR=$UUID_ROOT/include}             \
-      -DENABLE_KRB5=OFF                                               \
+      -DENABLE_KRB5=TRUE                                               \
       -DENABLE_READLINE=OFF                                           \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo                               \
       ${OPENSSL_ROOT:+-DOPENSSL_ROOT_DIR=$OPENSSL_ROOT}               \
