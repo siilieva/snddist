@@ -4,6 +4,9 @@ tag: lhapdf-6.5.3
 source: https://gitlab.com/hepcedar/lhapdf.git
 requires:
  - Python-modules
+ - "Python:slc.*"
+ - "Python-system:(?!slc.*)"
+ - "GCC-Toolchain:(?!osx)"
 build_requires:
  - autotools
 env:

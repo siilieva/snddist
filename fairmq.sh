@@ -37,6 +37,7 @@ case $ARCHITECTURE in
 esac
 cmake $SOURCEDIR                                                 \
       ${CXXSTD:+-DCMAKE_CXX_STANDARD=$CXXSTD}                    \
+      ${CXX_COMPILER:+-DCMAKE_CXX_FLAGS=$CXXFLAGS}        \
       ${CXX_COMPILER:+-DCMAKE_CXX_COMPILER=$CXX_COMPILER}        \
       ${CMAKE_BUILD_TYPE:+-DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE}  \
       -DCMAKE_INSTALL_PREFIX=$INSTALLROOT                        \
