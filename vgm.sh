@@ -1,7 +1,7 @@
 package: vgm
 version: "%(tag_basename)s"
-tag: "v5-0"
-source: https://github.com/vmc-project/vgm
+tag: "v5-0-snd"
+source: https://github.com/SND-LHC/vgm
 requires:
   - ROOT
   - GEANT4

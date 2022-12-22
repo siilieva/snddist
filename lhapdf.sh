@@ -1,64 +1,40 @@
 package: lhapdf
 version: "%(tag_basename)s%(defaults_upper)s"
 tag: lhapdf-6.5.3
-source: https://gitlab.com/hepcedar/lhapdf/
+source: https://gitlab.com/hepcedar/lhapdf.git
 requires:
  - Python-modules
-requires:
- - "Python:slc.*"
- - "Python-system:(?!slc.*)"
- - "GCC-Toolchain:(?!osx)"
 build_requires:
- - "autotools:(slc6|slc7)"
-prepend_path:
-  PYTHONPATH: $LHAPDF_ROOT/lib/python/site-packages
+ - autotools
+env:
+  LHAPATH: "$LHAPDF_ROOT/share/LHAPDF"
 ---
 #!/bin/bash -ex
 case $ARCHITECTURE in
   osx*)
     # If we preferred system tools, we need to make sure we can pick them up.
-    [[ ! $AUTOTOOLS_ROOT ]] && PATH=$PATH:`brew --prefix gettext`/bin
-    # Do not compile Python2 bindings on Mac
-    DISABLE_PYTHON=1
+    [[ ! $AUTOTOOLS_ROOT ]] && PATH=$PATH:$(brew --prefix gettext)/bin
   ;;
   *)
     EXTRA_LD_FLAGS="-Wl,--no-as-needed"
   ;;
 esac
 
-rsync -a --exclude '**/.git' $SOURCEDIR/ ./
-
-export LIBRARY_PATH="$LD_LIBRARY_PATH"
-
-if type "python" &>/dev/null; then
-  # Python2 or Python3 point to "python"
-  if python -c 'import sys; exit(0 if sys.version_info.major >=3 else 1)'; then
-    # LHAPDF not yet ready for Python3
-    DISABLE_PYTHON=1
-  fi
-else
-  # Python2 not installed and Python3 points to "python3"
-  DISABLE_PYTHON=1
-fi
+rsync -a --exclude '**/.git' "$SOURCEDIR"/ ./
 
 autoreconf -ivf
-./configure --prefix=$INSTALLROOT ${DISABLE_PYTHON:+--disable-python}
+./configure --prefix="$INSTALLROOT"
 
 make ${JOBS+-j $JOBS} all
 make install
 
-pushd "$INSTALLROOT"
-  # Fix ambiguity between lib/lib64
-  if [[ ! -d lib && -d lib64 ]]; then
-    ln -nfs lib64 lib
-  elif [[ -d lib && ! -d lib64 ]]; then
-    ln -nfs lib lib64
-  fi
-  # Uniform Python library path
-  pushd lib
-    ln -nfs python* python
-  popd
-popd
+PDFSETS="cteq6l1 MMHT2014lo68cl MMHT2014nlo68cl HERAPDF15NLO_EIG NNPDF31_nnlo_as_0118_luxqed NNPDF31_nnlo_as_0118"
+#$INSTALLROOT/bin/lhapdf install $PDFSETS
+# Check if PDF sets were really installed
+for P in $PDFSETS; do
+  curl -L https://lhapdfsets.web.cern.ch/lhapdfsets/current/"$P".tar.gz | tar xz -C "$INSTALLROOT"/share/LHAPDF
+  ls "$INSTALLROOT"/share/LHAPDF/"$P"
+done
 
 # Modulefile
 MODULEDIR="$INSTALLROOT/etc/modulefiles"
@@ -73,14 +49,10 @@ proc ModulesHelp { } {
 set version $PKGVERSION-@@PKGREVISION@$PKGHASH@@
 module-whatis "ALICE Modulefile for $PKGNAME $PKGVERSION-@@PKGREVISION@$PKGHASH@@"
 # Dependencies
-module load BASE/1.0 ${GCC_TOOLCHAIN_REVISION:+GCC-Toolchain/$GCC_TOOLCHAIN_VERSION-$GCC_TOOLCHAIN_REVISION} \\
-                     ${PYTHON_MODULES_ROOT:+Python-modules/$PYTHON_MODULES_VERSION-$PYTHON_MODULES_REVISION} 
 # Our environment
-set LHAPDF_ROOT \$::env(BASEDIR)/$PKGNAME/\$version
-setenv LHAPDF_ROOT \$LHAPDF_ROOT
-prepend-path PATH \$LHAPDF_ROOT/bin
-prepend-path LD_LIBRARY_PATH \$LHAPDF_ROOT/lib
-prepend-path PYTHONPATH \$LHAPDF_ROOT/lib/python/site-packages
-prepend-path LHAPDF_DATA_PATH \$LHAPDF_ROOT/share/LHAPDF
-EoF 
-
+setenv LHAPDF_ROOT \$::env(BASEDIR)/$PKGNAME/\$version
+setenv LHAPATH \$::env(LHAPDF_ROOT)/share/LHAPDF
+prepend-path PATH $::env(LHAPDF_ROOT)/bin
+prepend-path LD_LIBRARY_PATH $::env(LHAPDF_ROOT)/lib
+$([[ ${ARCHITECTURE:0:3} == osx ]] && echo "prepend-path DYLD_LIBRARY_PATH $::env(LHAPDF_ROOT)/lib")
+EoF
