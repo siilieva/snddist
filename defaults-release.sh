@@ -142,8 +142,8 @@ overrides:
      G4SAIDXSDATA : "`find ${G4INSTALL} $G4DATASEARCHOPT  '*data*G4SAIDDATA*'`"
   GEANT4_VMC:
     version: "%(tag_basename)s"
-    tag: v6-1-p2
-    source: https://github.com/vmc-project/geant4_vmc
+    tag: v6-1-p2-snd
+    source: https://github.com/SND-LHC/geant4_vmc
     prefer_system_check: |
       ls $GEANT4_VMC_ROOT/bin > /dev/null && \
       ls $GEANT4_VMC_ROOT/lib/libg4root.so > /dev/null && \
