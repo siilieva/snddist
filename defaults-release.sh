@@ -29,7 +29,6 @@ overrides:
       set -e
       which gfortran || { echo "gfortran missing"; exit 1; }
       which cc && test -f $(dirname $(which cc))/c++ && printf "#define GCCVER ((__GNUC__*1000)+(__GNUC_MINOR__*100)+(__GNUC_PATCHLEVEL__))\n#if (GCCVER < 10200 )\n#error \"System's GCC cannot be used: we need GCC 10.X. We are going to compile our own version.\"\n#endif\n" | cc -xc++ - -c -o /dev/null
--o /dev/null
   XRootD:
     tag: v5.5.1
     prefer_system_check: |
