@@ -148,10 +148,8 @@ overrides:
       ls $GEANT4_VMC_ROOT/bin > /dev/null && \
       ls $GEANT4_VMC_ROOT/lib/libg4root.so > /dev/null && \
       ls $GEANT4_VMC_ROOT/lib/libgeant4vmc.so> /dev/null && \
-      ls $GEANT4_VMC_ROOT/lib/libmtroot.so > /dev/null && \
       ls $GEANT4_VMC_ROOT/include/g4root > /dev/null && \
       ls $GEANT4_VMC_ROOT/include/geant4vmc > /dev/null && \
-      ls $GEANT4_VMC_ROOT/include/mtroot > /dev/null && \
       true
   VMC:
     version: "%(tag_basename)s"
@@ -292,11 +290,11 @@ overrides:
       ls $VGM_ROOT/include/VGM > /dev/null && \
       ls $VGM_ROOT/include/XmlVGM > /dev/null && \
       ls $VGM_ROOT/lib > /dev/null && \
-      ls $VGM_ROOT/lib/libBaseVGM.a > /dev/null && \
-      ls $VGM_ROOT/lib/libClhepVGM.a > /dev/null && \
-      ls $VGM_ROOT/lib/libGeant4GM.a > /dev/null && \
-      ls $VGM_ROOT/lib/libRootGM.a > /dev/null && \
-      ls $VGM_ROOT/lib/libXmlVGM.a > /dev/null
+      ls $VGM_ROOT/lib/libBaseVGM.so > /dev/null && \
+      ls $VGM_ROOT/lib/libClhepVGM.so > /dev/null && \
+      ls $VGM_ROOT/lib/libGeant4GM.so > /dev/null && \
+      ls $VGM_ROOT/lib/libRootGM.so > /dev/null && \
+      ls $VGM_ROOT/lib/libXmlVGM.so > /dev/null
   XercesC:
     prefer_system_check: |
       ls $XERCESC_ROOT/ > /dev/null && \
