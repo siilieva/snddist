@@ -51,6 +51,7 @@ incremental_recipe: |
             ${EVTGEN_VERSION:+EvtGen/$EVTGEN_VERSION-$EVTGEN_REVISION}          \\
             ${FAIRROOT_VERSION:+FairRoot/$FAIRROOT_VERSION-$FAIRROOT_REVISION}  \\
             ${MADGRAPH5_VERSION:+madgraph5/$MADGRAPH5_VERSION-$MADGRAPH5_REVISION} \\
+            ${ALPACA_VERSION:+alpaca/$ALPACA_VERSION-$ALPACA_REVISION}          \\
             ${FEDRA_VERSION:+FEDRA/$FEDRA_VERSION-$FEDRA_REVISION}
   # Our environment
   setenv EOSSHIP root://eospublic.cern.ch/
@@ -125,14 +126,14 @@ cmake $SOURCEDIR                                                 \
       ${PYTHON_ROOT:+-DPYTHON_INCLUDE_DIR=$PYTHON_ROOT/include/python3.6m/} \
       -DPYTHIA8_DIR=$PYTHIA_ROOT                                 \
       -DPYTHIA8_INCLUDE_DIR=$PYTHIA_ROOT/include                 \
-      -DXROOTD_INCLUDE_DIR=$XROOTD_ROOT/include/xrootd                 \
+      -DXROOTD_INCLUDE_DIR=$XROOTD_ROOT/include/xrootd           \
       -DGEANT4_ROOT=$GEANT4_ROOT                                 \
       -DGEANT4_INCLUDE_DIR=$GEANT4_ROOT/include/Geant4           \
       -DGEANT4_VMC_INCLUDE_DIR=$GEANT4_VMC_ROOT/include/geant4vmc \
       ${CMAKE_VERBOSE_MAKEFILE:+-DCMAKE_VERBOSE_MAKEFILE=ON}     \
       ${BOOST_ROOT:+-DBOOST_ROOT=$BOOST_ROOT}                    \
       -DCMAKE_INSTALL_PREFIX=$INSTALLROOT
-
+XROOTD_ROOT=$XROOTD_ROOT
 make ${JOBS:+-j$JOBS}
 make test
 make install
@@ -176,6 +177,7 @@ setenv SNDSW_ROOT \$::env(BASEDIR)/$PKGNAME/\$version
 setenv FAIRSHIP \$::env(SNDSW_ROOT)
 setenv FAIRSHIP_ROOT \$::env(SNDSW_ROOT)
 setenv SNDSW_HASH $SNDSW_HASH
+setenv XROOTD_ROOT $XROOTD_ROOT
 setenv FAIRSHIP_HASH \$::env(SNDSW_HASH)
 setenv VMCWORKDIR \$::env(SNDSW_ROOT)
 setenv GEOMPATH \$::env(SNDSW_ROOT)/geometry
