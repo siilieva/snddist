@@ -74,7 +74,9 @@ incremental_recipe: |
   append-path ROOT_INCLUDE_PATH \$::env(GEANT4_VMC_ROOT)/include
   append-path ROOT_INCLUDE_PATH \$::env(GEANT4_VMC_ROOT)/include/geant4vmc
   append-path ROOT_INCLUDE_PATH \$::env(SNDSW_ROOT)/genfit/core/include
-  # append-path PYTHONPATH \$::env(XROOTD_ROOT)/lib/python3.8/site-packages
+  append-path PYTHONPATH        \$::env(XROOTD_ROOT)/lib/python/site-packages
+  # required for ubuntu22.04: don't know how to fix this more elegant
+  append-path PYTHONPATH        \$::env(XROOTD_ROOT)/local/lib/python3.10/dist-packages
 
   prepend-path PYTHONPATH \$::env(SNDSW_ROOT)/python
   append-path PYTHONPATH \$::env(SNDSW_ROOT)/shipLHC/scripts
@@ -138,6 +140,7 @@ make install
 rsync -a $BUILDDIR/bin $INSTALLROOT/
 # to be sure all header files are there
 rsync -a $INSTALLROOT/*/*.h $INSTALLROOT/include
+rsync -a $INSTALLROOT/genfit/core/include/*.h $INSTALLROOT/include
 
 #Get the current git hash
 cd $SOURCEDIR
@@ -192,6 +195,8 @@ prepend-path PYTHONPATH \$::env(SNDSW_ROOT)/python
 append-path PYTHONPATH \$::env(SNDSW_ROOT)/shipLHC/scripts
 append-path PYTHONPATH \$::env(SNDSW_ROOT)/shipLHC/rawData
 append-path PYTHONPATH \$::env(XROOTD_ROOT)/lib/python/site-packages
+# required for ubuntu22.04: don't know how to fix this more elegant
+append-path PYTHONPATH  \$::env(XROOTD_ROOT)/local/lib/python3.10/dist-packages
 
 $([[ ${ARCHITECTURE:0:3} == osx ]] && echo "prepend-path DYLD_LIBRARY_PATH \$::env(SNDSW_ROOT)/lib")
 EoF
