@@ -42,6 +42,7 @@ If you want to avoid this please install the following modules (pip recommended)
   - pytest
   - pylint
   - pyyaml
+  - psutil
 EoF
 fi
 
@@ -77,6 +78,7 @@ for X in "mock==1.3.0"          \
          "pytest==4.6.9"        \
          "pylint==2.0.1"        \
          "PyYAML==5.1"          \
+         "psutil==5.9.4"       \
          "requests==2.25.0"     \
          "mongoengine==0.23.1"
 do

@@ -16,7 +16,7 @@ overrides:
     tag: v1.6.3
   boost:
     version:  "%(tag_basename)s"
-    tag: "v1.70.0"
+    tag: "v1.75.0"
     requires:
       - "GCC-Toolchain:(?!osx)"
       - Python
@@ -24,19 +24,19 @@ overrides:
      printf "#include \"boost/version.hpp\"\n# if (BOOST_VERSION < 106400)\n#error \"Cannot use system's boost. Boost > 1.64.00 required.\"\n#endif\nint main(){}" \
      | gcc -I$BOOST_ROOT/include -xc++ - -o /dev/null
   GCC-Toolchain:
-    tag: v7.3.0-alice2
+    tag: v10.2.0-alice2
     prefer_system_check: |
       set -e
       which gfortran || { echo "gfortran missing"; exit 1; }
-      which cc && test -f $(dirname $(which cc))/c++ && printf "#define GCCVER ((__GNUC__ << 16)+(__GNUC_MINOR__ << 8)+(__GNUC_PATCHLEVEL__))\n#if (GCCVER < 0x060000 || GCCVER > 0x100000)\n#error \"System's GCC cannot be used: we need GCC 6.X. We are going to compile our own version.\"\n#endif\n" | cc -xc++ - -c -o /dev/null
+      which cc && test -f $(dirname $(which cc))/c++ && printf "#define GCCVER ((__GNUC__*1000)+(__GNUC_MINOR__*100)+(__GNUC_PATCHLEVEL__))\n#if (GCCVER < 10200 )\n#error \"System's GCC cannot be used: we need GCC 10.X. We are going to compile our own version.\"\n#endif\n" | cc -xc++ - -c -o /dev/null
   XRootD:
-    tag: v5.4.3
+    tag: v5.5.1
     prefer_system_check: |
       ls $XROOTD_ROOT/bin > /dev/null && \
       ls $XROOTD_ROOT/lib > /dev/null && \
       ls $FAIRROOT_ROOT/include > /dev/null 
   ROOT:
-    tag: "v6-26-02"
+    tag: "v6-26-10"
     source: https://github.com/root-project/root
     requires:
       - GSL
@@ -81,21 +81,21 @@ overrides:
     tag: "v3.12.3"
   CMake:
     version: "%(tag_basename)s"
-    tag: "v3.18.2"
+    tag: "v3.23.1"
     prefer_system_check: |
       verge() { [[  "$1" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]]; }
-      type cmake && verge 3.18.2 `cmake --version | sed -e 's/.* //' | cut -d. -f1,2,3`
+      type cmake && verge 3.23.1 `cmake --version | sed -e 's/.* //' | cut -d. -f1,2,3`
   FairRoot:
     version: "%(tag_basename)s"
-    tag: "v18.4.2_snd"
+    tag: "v18.4.9"
     prefer_system_check: |
       ls $FAIRROOT_ROOT/ > /dev/null && \
       ls $FAIRROOT_ROOT/lib > /dev/null && \
       ls $FAIRROOT_ROOT/include > /dev/null && \
-      grep v18.4.2 $FAIRROOT_ROOT/include/FairVersion.h
+      grep v18.4.9 $FAIRROOT_ROOT/include/FairVersion.h
   FairMQ:
     version: "%(tag_basename)s"
-    tag: "v1.4.38"
+    tag: "v1.4.55"
     prefer_system_check: |
       ls $FAIRMQ_ROOT/ > /dev/null && \
       ls $FAIRMQ_ROOT/lib > /dev/null && \
@@ -110,8 +110,8 @@ overrides:
       grep 1.9.0 $FAIRLOGGER_ROOT/include/fairlogger/Version.h
   GEANT4:
     version: "%(tag_basename)s"
-    tag: v10.7.2
-    source: https://github.com/geant4/geant4.git
+    tag: v11.1.0-snd
+    source: https://github.com/SND-LHC/geant4.git
     prefer_system_check: |
       ls $GEANT4_ROOT/bin > /dev/null && \
       ls $GEANT4_ROOT/bin/geant4-config > /dev/null && \
@@ -142,19 +142,18 @@ overrides:
      G4SAIDXSDATA : "`find ${G4INSTALL} $G4DATASEARCHOPT  '*data*G4SAIDDATA*'`"
   GEANT4_VMC:
     version: "%(tag_basename)s"
-    tag: v5-4
+    tag: v6-1-p2-snd
+    source: https://github.com/SND-LHC/geant4_vmc
     prefer_system_check: |
       ls $GEANT4_VMC_ROOT/bin > /dev/null && \
       ls $GEANT4_VMC_ROOT/lib/libg4root.so > /dev/null && \
       ls $GEANT4_VMC_ROOT/lib/libgeant4vmc.so> /dev/null && \
-      ls $GEANT4_VMC_ROOT/lib/libmtroot.so > /dev/null && \
       ls $GEANT4_VMC_ROOT/include/g4root > /dev/null && \
       ls $GEANT4_VMC_ROOT/include/geant4vmc > /dev/null && \
-      ls $GEANT4_VMC_ROOT/include/mtroot > /dev/null && \
       true
   VMC:
     version: "%(tag_basename)s"
-    tag: v1-1-p1
+    tag: v2-0
     prefer_system_check: |
       ls $VMC_ROOT/include > /dev/null && \
       true
@@ -207,7 +206,8 @@ overrides:
       true
   vgm:
     version: "%(tag_basename)s"
-    tag: "4.4"
+    tag: "v5-0-snd"
+    source: https://github.com/SND-LHC/vgm
   evtGen:
     version: "%(tag_basename)s"
     source: https://github.com/ShipSoft/evtgen
@@ -240,8 +240,8 @@ overrides:
     tag: v1.1.5-ship
   pythia6:
     version: "%(tag_basename)s"
-    source: https://github.com/ShipSoft/pythia6
-    tag: v6.4.28-ship1
+    source: https://github.com/SND-LHC/pythia6
+    tag: v6.4.28-snd
     prefer_system_check: |
       ls $PYTHIA6_ROOT/lib/libpythia6.so > /dev/null && \
       ls $PYTHIA6_ROOT/lib/libPythia6.so > /dev/null
@@ -290,11 +290,11 @@ overrides:
       ls $VGM_ROOT/include/VGM > /dev/null && \
       ls $VGM_ROOT/include/XmlVGM > /dev/null && \
       ls $VGM_ROOT/lib > /dev/null && \
-      ls $VGM_ROOT/lib/libBaseVGM.a > /dev/null && \
-      ls $VGM_ROOT/lib/libClhepVGM.a > /dev/null && \
-      ls $VGM_ROOT/lib/libGeant4GM.a > /dev/null && \
-      ls $VGM_ROOT/lib/libRootGM.a > /dev/null && \
-      ls $VGM_ROOT/lib/libXmlVGM.a > /dev/null
+      ls $VGM_ROOT/lib/libBaseVGM.so > /dev/null && \
+      ls $VGM_ROOT/lib/libClhepVGM.so > /dev/null && \
+      ls $VGM_ROOT/lib/libGeant4GM.so > /dev/null && \
+      ls $VGM_ROOT/lib/libRootGM.so > /dev/null && \
+      ls $VGM_ROOT/lib/libXmlVGM.so > /dev/null
   XercesC:
     prefer_system_check: |
       ls $XERCESC_ROOT/ > /dev/null && \
@@ -309,7 +309,7 @@ overrides:
   GEANT3:
     version: "%(tag_basename)s"
     source: https://github.com/vmc-project/geant3
-    tag: v3-9
+    tag: v4-1
     prefer_system_check: |
       ls $GEANT3_ROOT/ > /dev/null && \
       ls $GEANT3_ROOT/include > /dev/null && \
