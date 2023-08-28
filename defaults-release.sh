@@ -30,13 +30,13 @@ overrides:
       which gfortran || { echo "gfortran missing"; exit 1; }
       which cc && test -f $(dirname $(which cc))/c++ && printf "#define GCCVER ((__GNUC__*1000)+(__GNUC_MINOR__*100)+(__GNUC_PATCHLEVEL__))\n#if (GCCVER < 10200 )\n#error \"System's GCC cannot be used: we need GCC 10.X. We are going to compile our own version.\"\n#endif\n" | cc -xc++ - -c -o /dev/null
   XRootD:
-    tag: v5.5.2-rc1
+    tag: v5.5.5
     prefer_system_check: |
       ls $XROOTD_ROOT/bin > /dev/null && \
       ls $XROOTD_ROOT/lib > /dev/null && \
       ls $FAIRROOT_ROOT/include > /dev/null 
   ROOT:
-    tag: "v6-26-10"
+    tag: "v6-28-04"
     source: https://github.com/root-project/root
     requires:
       - GSL
@@ -188,8 +188,8 @@ overrides:
       true
   pythia:
     version: "%(tag_basename)s"
-    source: https://github.com/ShipSoft/pythia8
-    tag: v8230-ship
+    source: https://github.com/SND-LHC/pythia8.git
+    tag: sndsw-pythia8309
     requires:
       - lhapdf
       - HepMC
