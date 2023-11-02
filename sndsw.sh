@@ -132,7 +132,6 @@ cmake $SOURCEDIR                                                 \
       ${CMAKE_VERBOSE_MAKEFILE:+-DCMAKE_VERBOSE_MAKEFILE=ON}     \
       ${BOOST_ROOT:+-DBOOST_ROOT=$BOOST_ROOT}                    \
       -DCMAKE_INSTALL_PREFIX=$INSTALLROOT
-XROOTD_ROOT=$XROOTD_ROOT
 make ${JOBS:+-j$JOBS}
 make test
 make install
