@@ -318,7 +318,6 @@ overrides:
       ls $GEANT3_ROOT/lib64/libgeant321.so > /dev/null && \
       true
   fedra:
-    tag: rev1523
     prefer_system_check: |
       ls $FEDRA_ROOT/bin > /dev/null && \
       ls $FEDRA_ROOT/lib > /dev/null && \
