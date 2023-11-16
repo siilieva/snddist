@@ -1,8 +1,8 @@
 package: FEDRA
-version: rev1523
-tag: rev1523
+version: rev1530
+tag: rev1530
 
-source: https://github.com/antonioiuliano2/fedra
+source: https://github.com/SND-LHC/fedra
 
 requires:
   - GCC-Toolchain
