@@ -7,7 +7,7 @@ requires:
 build_requires:
   - curl
 prepend_path:
-  PYTHONPATH: $PYTHON_MODULES_ROOT/lib/python$PYVER/site-packages:$PYTHONPATH
+  PYTHONPATH: $PYTHON_MODULES_ROOT/lib/python$PYVSN/site-packages:$PYTHONPATH
 prefer_system: (?!slc5)
 prefer_system_check: |
   python3 -c 'import wheel, matplotlib,numpy,scipy,certifi,IPython,ipywidgets,ipykernel,notebook.notebookapp,metakernel,sklearn,six,pymongo,mongoengine,pytest,pylint,yaml'
@@ -123,6 +123,7 @@ module-whatis "ALICE Modulefile for $PKGNAME $PKGVERSION-@@PKGREVISION@$PKGHASH@
 # Dependencies
 module load BASE/1.0 ${PYTHON_VERSION:+Python/$PYTHON_VERSION-$PYTHON_REVISION} ${ALIEN_RUNTIME_VERSION:+AliEn-Runtime/$ALIEN_RUNTIME_VERSION-$ALIEN_RUNTIME_REVISION}
 # Our environment
+setenv PYVSN $PYVER
 setenv PYTHON_MODULES_ROOT \$::env(BASEDIR)/$PKGNAME/\$version
 prepend-path PATH $::env(PYTHON_MODULES_ROOT)/bin
 prepend-path LD_LIBRARY_PATH $::env(PYTHON_MODULES_ROOT)/lib64
